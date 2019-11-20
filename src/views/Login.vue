@@ -1,9 +1,9 @@
 <template>
   <div class="login">
-    <b-jumbotron header = "Vue.js Chat"
-                 lead = "Powered by Chatkit SDK and Bootstrap-Vue"
-                 bg-variant = "info"
-                 text-variant="white">
+    <b-jumbotron  header="Yanyan"
+                  lead="A chat platform supported by Pusher"
+                  bg-variant="info"
+                  text-variant="white">
       <p>For more information visit website</p>
       <b-btn target="_blank" href="https://pusher.com/chatkit">More Info</b-btn>
     </b-jumbotron>
@@ -11,7 +11,7 @@
       <b-row>
         <b-col lg="4" md="3"></b-col>
         <b-col lg="4" md="6">
-          <LoginForm/>
+          <LoginForm />
         </b-col>
         <b-col lg="4" md="3"></b-col>
       </b-row>
