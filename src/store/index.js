@@ -1,33 +1,30 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import VuexPersistence from 'vuex-persist'
-import mutations from './mutations'
-import actions from './actions'
 
 Vue.use(Vuex)
-const debug = process.env.NODE_ENV !== 'production'
-const vuexLocal = new VuexPersistence ({
-  storage: window.localStorage
+let modules = {}
+const requireModules = require.context('./moudle', false, /[A-Za-z]\w+\.(vue|js)$/)
+requireModules.keys().forEach(fileName => {
+  const moudle = requireModules(fileName)
+  const moudleName = fileName
+    .split('/')
+    .pop()
+    .replace(/\.\w+$/, '')
+  modules[moudleName] = moudle.default || moudle
 })
-
 export default new Vuex.Store({
+  modules,
   state: {
-    loading: false,
-    sending: false,
-    error: null,
-    user: null,
-    reconnect: false,
-    activeRoom: null,
-    rooms: [],
-    users: [],
-    messages: [],
-    userTyping: null
+    token: 'defaultToken',
+    userInfo: {}
   },
-  mutations,
-  actions,
-  getters:{
-    hasError: state => state.error ? true : false
+  mutations: {
+    setToken(store, preload) {
+      store.state.token = preload.token
+    },
+    setUserInfo(store, proload) {
+      store.state.userInfo = proload.userInfo
+    }
   },
-  plugins: [vuexLocal.plugin],
-  strict: debug
+  actions: {}
 })

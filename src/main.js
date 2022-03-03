@@ -1,23 +1,26 @@
 import Vue from 'vue'
-import BootstrapVue from 'bootstrap-vue'
-import VueChatScroll from 'vue-chat-scroll'
-
 import App from './App.vue'
 import router from './router'
-import store from './store/index'
+import store from './store'
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-import './assets/css/loading.css'
-import './assets/css/loading-btn.css'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
+import Components from '@/components/index.js'
+import Api from '@/api/index.js'
+import '@/assets/style/index.css'
+import Mocks from '@/mock/index.js'
+import utils from '@/utils/index.js'
 
+Vue.use(ElementUI)
+Vue.use(Components)
+Vue.use(Api)
+Vue.use(Mocks)
+Vue.use(utils)
 Vue.config.productionTip = false
-Vue.use(BootstrapVue)
-Vue.use(VueChatScroll)
 
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App)
 }).$mount('#app')
