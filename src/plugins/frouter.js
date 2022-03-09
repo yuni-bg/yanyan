@@ -11,6 +11,7 @@ class VueRouter {
     this.$options = options
     this.routeMap = {}
     this.routeNameMap = {}
+    // 利用了vue的响应式来实现自动更新roter-view，说明了vue-router对vue的强依赖，vue-router也只能用于vue中
     this.app = new Vue({
       data: {
         current: '/'

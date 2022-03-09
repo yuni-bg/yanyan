@@ -7,14 +7,15 @@
       <li>监听url变化</li>
       <li>路由配置解析：</li>
       <li>实现全局组件 router-link router-view</li>
-      <div v-if="$router.key==='fff'">
-        <h3>router替换为自己的router后可见</h3>
-        <el-button type="primary" @click="toHomeByPath">点击使用path跳转到首页</el-button>
-        <el-button type="primary" @click="toHomeByName">点击使用{name}跳转到首页</el-button>
-        <el-button type="primary" @click="toHomeByPath2">点击使用{path}跳转到首页</el-button>
-        <router-link to="/">一个跳转到home的routerlink</router-link>
-      </div>
     </ul>
+    <h4>实现代码在：@/plugins/frouter.js</h4>
+    <div v-if="$router.key==='fff'">
+      <h3>router替换为自己的router后可见</h3>
+      <el-button type="primary" @click="toHomeByPath">点击使用path跳转到首页</el-button>
+      <el-button type="primary" @click="toHomeByName">点击使用{name}跳转到首页</el-button>
+      <el-button type="primary" @click="toHomeByPath2">点击使用{path}跳转到首页</el-button>
+      <router-link to="/">一个跳转到home的routerlink</router-link>
+    </div>
   </div>
 </template>
 

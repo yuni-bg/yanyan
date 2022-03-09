@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+// import Vuex from '@/plugins/fvuex.js'
 Vue.use(Vuex)
 let modules = {}
 const requireModules = require.context('./moudle', false, /[A-Za-z]\w+\.(vue|js)$/)
@@ -16,15 +16,30 @@ export default new Vuex.Store({
   modules,
   state: {
     token: 'defaultToken',
-    userInfo: {}
+    userInfo: {},
+    fart: 0// myvuex
   },
-  mutations: {
-    setToken(store, preload) {
-      store.state.token = preload.token
-    },
-    setUserInfo(store, proload) {
-      store.state.userInfo = proload.userInfo
+  getters: {
+    squareFart(state) {
+      return state.fart * state.fart
     }
   },
-  actions: {}
+  mutations: {
+    setToken(state, preload) {
+      state.token = preload.token
+    },
+    setUserInfo(state, proload) {
+      state.userInfo = proload.userInfo
+    },
+    addFart(state, proload) {
+      state.fart = proload
+    }
+  },
+  actions: {
+    addAsyncFart({ commit }, preload) {
+      setTimeout(() => {
+        commit('addFart', preload)
+      })
+    }
+  },
 })

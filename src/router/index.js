@@ -43,10 +43,15 @@ const routes = [
     meta: { name: 'myTree组件封装' },
     component: () => import('@/views/myTree')
   }, {
-    path: '/routerGuard',
-    name: 'routerGuard',
+    path: '/myRouter',
+    name: 'myRouter',
     meta: { name: '路由', auth: true },
-    component: () => import('@/views/routerGuard')
+    component: () => import('@/views/myRouter')
+  }, {
+    path: '/myVuex',
+    name: 'myVuex',
+    meta: { name: 'Vuex', auth: true },
+    component: () => import('@/views/myVuex')
   }
 ]
 
