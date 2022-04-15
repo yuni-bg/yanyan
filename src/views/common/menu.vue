@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { routes } from '@/router/index'
+import routes from '@/router/routes'
 export default {
   name: 'Menu',
   components: {},

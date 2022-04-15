@@ -1,6 +1,11 @@
 <template>
   <div>
-    路由页面:{{message}}
+    路由页面: {{message}}
+    <el-switch
+      v-model="defaultRouter"
+      active-text="官方自带路由"
+      inactive-text="我自己的路由">
+    </el-switch>
     <h3>路由实现原理</h3>
     <ul>
       <li>插件</li>
@@ -9,13 +14,14 @@
       <li>实现全局组件 router-link router-view</li>
     </ul>
     <h4>实现代码在：@/plugins/frouter.js</h4>
-    <div v-if="$router.key==='fff'">
+    <div v-if="$router.fff">
       <h3>router替换为自己的router后可见</h3>
       <el-button type="primary" @click="toHomeByPath">点击使用path跳转到首页</el-button>
       <el-button type="primary" @click="toHomeByName">点击使用{name}跳转到首页</el-button>
       <el-button type="primary" @click="toHomeByPath2">点击使用{path}跳转到首页</el-button>
       <router-link to="/">一个跳转到home的routerlink</router-link>
     </div>
+
   </div>
 </template>
 
@@ -31,10 +37,21 @@ export default {
   },
   data() {
     return {
-      message: '路由守卫页面组件data'
+      message: '路由守卫页面组件data',
+      status: localStorage.getItem('paojiao_router')
     }
   },
-  computed: {},
+  computed: {
+    defaultRouter: {
+      get() {
+        return !!this.status
+      },
+      set(val) {
+        this.status = val || ''
+        localStorage.setItem('paojiao_router', val || '')
+      }
+    }
+  },
 
   created() {},
   mounted() {},

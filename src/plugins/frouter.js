@@ -1,74 +1,80 @@
 import Vue from 'vue'
-/**路由功能
- * 插件
- * 路由配置解析
- * 监听url变化
- * router-view router-link
- */
+/**
+ * 路由实现思路：
+ * 1.插件
+ * 2.全局可访问
+ * 3.路由map
+ * 4.监听url
+ * 5.router-view router-link实现插件
+ **/
 class VueRouter {
-  constructor(options) {
-    this.key = 'fff'
-    this.$options = options
-    this.routeMap = {}
-    this.routeNameMap = {}
-    // 利用了vue的响应式来实现自动更新roter-view，说明了vue-router对vue的强依赖，vue-router也只能用于vue中
-    this.app = new Vue({
+  constructor({ routes }) {
+    this.routes = routes
+    this.fff = true
+    this.current = new Vue({
       data: {
-        current: '/'
+        path: '/'
+      }
+    })
+    this.routerMap = {}
+  }
+  init() {
+    this.initRouteMap()
+    this.listenUrl()
+    this.initComponent()
+  }
+  initRouteMap() {
+    this.routes.forEach(item => {
+      const redirectCom = item.redirect && this.routes.find(route => route.name === item.redirect)
+      this.routerMap[item.path] = {
+        component: item.component || redirectCom.component,
+        name: item.name || redirectCom.name,
       }
     })
   }
-  init() {
-    this.bindEvent()
-    this.createRouteMap()
-    this.initComponent()
+  listenUrl() {
+    window.addEventListener('load', this.dealHashChange.bind(this))
+    window.addEventListener('hashchange', this.dealHashChange.bind(this))
   }
-  bindEvent() {
-    window.addEventListener('load', this.onHashChange.bind(this))
-    window.addEventListener('hashchange', this.onHashChange.bind(this))
-  }
-  createRouteMap() {
-    this.$options.routes.forEach(item => {
-      this.routeMap[item.path] = item.component
-      this.routeNameMap[item.name] = item.path
-    })
+  dealHashChange() {
+    const hash = window.location.hash.slice(1)
+    this.current.path = hash || '/'
   }
   initComponent() {
-    // <router-link :to="/">fff</router-link>
+    // <router-link to="/home">去home</router-link>
     Vue.component('router-link', {
-      props: {
-        to: String
-      },
+      props: { to: String },
       render(h) {
-        //tag data children
+        // tag data children
         return h('a', { attrs: { href: '#' + this.to } }, [this.$slots.default])
       }
     })
-    // <router-view/>
+    // < router-view />
     Vue.component('router-view', {
       render: (h) => {
-        return h(this.routeMap[this.app.current])
+        return h(this.routerMap[this.current.path].component)
       }
     })
   }
-  onHashChange() {
-    this.app.current = window.location.hash.slice(1) || '/'
-  }
-  push(param) {
-    // push是path还是对象
-    // this.$router.push('/')  this.$router.push({ name: 'myForm' }) this.$router.push({ path: '/myForm' })
+  push(newRoute) {
     let path = '/'
-    if (typeof param === 'string') {
-      path = param
-    } else if (param.name) {
-      path = this.routeNameMap[param.name]
-    } else if (param.path) {
-      path = param.path
+    if (newRoute.name) {
+      const curItem = this.routes.find(item => item.name === newRoute.name)
+      path = curItem.path
+    } else if (newRoute.path) {
+      path = newRoute.path
+    } else {
+      path = newRoute
     }
-    this.app.current = path
-    window.location.hash = '#' + path
+    window.location.hash = '#' + path || '/'
+    this.current.path = path || '/'
+  }
+  afterEach(fn) {
+    console.log('afterEach')
+    if (fn && typeof fn === 'function') fn(arguments)
   }
 }
+
 VueRouter.install = function (Vue) {
   Vue.mixin({
     beforeCreate() {
