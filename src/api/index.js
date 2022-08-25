@@ -1,7 +1,7 @@
-import axios from 'axios'
-import { Message, Loading } from 'element-ui'
-import store from '@/store'
 import router from '@/router'
+import store from '@/store'
+import axios from 'axios'
+import { Loading, Message } from 'element-ui'
 
 let loading = null
 let requestCount = 0
@@ -55,6 +55,10 @@ axios.interceptors.response.use(
   // 然后根据返回的状态码进行一些操作，例如登录过期提示，错误提示等等
   // 下面列举几个常见的操作，其他需求可自行扩展
   error => {
+    if (!error.response.config.noLoading && loading) {
+      requestCount--
+      requestCount < 1 && loading.close()
+    }
     if (error.response.status) {
       switch (error.response.status) {
         // 401: 未登录
@@ -113,7 +117,8 @@ axios.interceptors.response.use(
 )
 
 const base = {
-  user: '/userservice'
+  user: '/userservice',
+  fbigame: '/fbigameApi'
 }
 
 const http = {

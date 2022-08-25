@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="./fvue.js"></script>
+  <script>
+    const app = new fVue({
+      data:{msg:'hello',wangh:{
+        zhuzhu:1,
+        dudu:2
+      }}
+    })
+    app.msg = 'hehehe'
+    app.wangh.zhuzhu = 2
+    console.log(app)
+  </script>
+</body>
+</html>
